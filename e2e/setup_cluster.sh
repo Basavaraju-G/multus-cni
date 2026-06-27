@@ -30,9 +30,6 @@ nodes:
     kubeadmConfigPatches:
     - |
       kind: ClusterConfiguration
-      apiServer:
-        extraArgs:
-          runtime-config: "resource.k8s.io/v1beta1=true"
       scheduler:
         extraArgs:
           v: "1"
@@ -51,7 +48,6 @@ nodes:
       nodeRegistration:
         kubeletExtraArgs:
           pod-manifest-path: "/etc/kubernetes/manifests/"
-          feature-gates: "DynamicResourceAllocation=true,DRAResourceClaimDeviceStatus=true,KubeletPodResourcesDynamicResources=true"
     - |
       kind: JoinConfiguration
       nodeRegistration:
@@ -64,18 +60,11 @@ nodes:
       nodeRegistration:
         kubeletExtraArgs:
           pod-manifest-path: "/etc/kubernetes/manifests/"
-          feature-gates: "DynamicResourceAllocation=true,DRAResourceClaimDeviceStatus=true,KubeletPodResourcesDynamicResources=true"
     - |
       kind: JoinConfiguration
       nodeRegistration:
         kubeletExtraArgs:
           v: "1"
-# Required by DRA Integration
-##
-featureGates:
-  DynamicResourceAllocation: true
-  DRAResourceClaimDeviceStatus: true
-  KubeletPodResourcesDynamicResources: true
 runtimeConfig:
   "api/beta": "true"
 containerdConfigPatches:
@@ -84,7 +73,6 @@ containerdConfigPatches:
 - |-
   [plugins."io.containerd.grpc.v1.cri"]
       enable_cdi = true
-##
 EOF
 
 # load multus image from container host to kind node
